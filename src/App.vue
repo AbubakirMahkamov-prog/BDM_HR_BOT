@@ -1,9 +1,23 @@
 <template>
   <div id="app">
+    
     <router-view/>
   </div>
 </template>
+<script>
+export default {
+  name:'AppView', 
+  data() {
+    return {
+      user: {}
+    }
+  },
+  mounted() {
+    this.user = this.$store.getters.getUser
+  }
 
+}
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

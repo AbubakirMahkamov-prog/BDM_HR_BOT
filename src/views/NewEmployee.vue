@@ -1,5 +1,6 @@
 <template>
   <div class="NewEmployee">
+    {{user}}
        <b-form @submit="onSubmit">
       <b-form-group
         id="input-group-1"
@@ -80,7 +81,8 @@
       </b-form-group>
       <br>
       <b-button type="submit" variant="primary" style="width:100%">Yuborish</b-button>
-     
+      <br> <br>
+      <b-button variant="primary" style="width:100%" @click="$router.go(-1)">Home</b-button>
     </b-form>
   </div>
 </template>
@@ -90,9 +92,10 @@ export default {
   name:'NewEmployee',
   data() {
     return {
-      choice_student : ['MOBILE APP DEVELOPMENT', 'WEB DEVELOPMENT', 'FARQI YO\'q'],
+      user: {},
+      choice_student : ['MOBILE APP DEVELOPMENT', 'WEB DEVELOPMENT', 'FARQI YO\'Q'],
       new_employee : {
-                    "chat_id": 1619793289,
+                    "chat_id":null,
                     "name": "",
                     "phone_number": "",
                     "university":"",
@@ -100,7 +103,7 @@ export default {
                     "group_name":"",
                     "hobbies":"",
                     "because":"",
-                    "sort_request":"",
+                    "sort_request":"👨‍🎓👩‍🎓 Shogirt tushish",
                     "choice_student":  ""
       },
     }
@@ -108,11 +111,20 @@ export default {
   methods : {
     onSubmit(event) {
       event.preventDefault()
+      this.new_employee.chat_id = this.user.id
       EmployeeService.newEmployee(this.new_employee).then(res => {
-        console.log(res)
+          if (res.error === false) {
+            this.$bvToast.toast(res.message, {
+              title: res.data.id,
+              autoHideDelay: 9000,
+            })
+          }
       })
       this.$router.push('/')
     }
+  },
+  mounted() {
+    this.user = this.$store.state.user
   }
 }
 </script>
